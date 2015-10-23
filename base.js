@@ -37,7 +37,9 @@ function registerCustomElement({name, created, initialize, attached, detached, a
     }
     for (let i = 0 ; i < element.attributes.length; ++ i) {
       const current = element.attributes[i]
-      this[current.name] = current.value
+      if (current.name in config) {
+        this[current.name] = current.value
+      }
     }
     if (typeof created !== 'undefined') {
       created.call(this)
