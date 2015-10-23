@@ -64,6 +64,16 @@ describe 'Custom Element Base', ->
     element.wow = {}
     expect(element.hasAttribute('wow')).toBe(false)
 
+  it 'automatically removes JSON attributes after using', ->
+    element = new (registerCustomElement(getCustomElement({
+      name: 'x-spec-automatically-remove-json-attributes'
+      config: {wow: {type: 'JSON'}}
+    })))
+    element.setAttribute('wow', '[]')
+    expect(element.hasAttribute('wow')).toBe(false)
+    expect(element.wow instanceof Array).toBe(true)
+    expect(element.wow.length).toBe(0)
+
   it 'automatically uses the existing html attributes in config', ->
     name = 'x-spec-automatically-resume-config-attributes'
     registerCustomElement(getCustomElement({
