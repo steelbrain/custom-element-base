@@ -1,0 +1,23 @@
+{
+  "name": "custom-element-base",
+  "version": "1.0.0",
+  "description": "A base component for declaring custom elements",
+  "main": "base.min.js",
+  "scripts": {
+    "test": "apm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/steelbrain/custom-element-base.git"
+  },
+  "keywords": [
+    "browser",
+    "html5"
+  ],
+  "author": "steelbrain",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/steelbrain/custom-element-base/issues"
+  },
+  "homepage": "https://github.com/steelbrain/custom-element-base#readme"
+}
