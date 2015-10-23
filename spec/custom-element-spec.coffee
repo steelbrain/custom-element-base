@@ -22,6 +22,14 @@ describe 'Custom Element Base', ->
     element.remove()
     expect(lastRan).toBe('detached')
 
+  it 'lowercases config values', ->
+    element = new (registerCustomElement(getCustomElement({
+      name: 'x-spec-lowercase-config-values',
+      config: {Wow: {type: Boolean, default: false}}
+    })))
+    expect(element.Wow).toBeUndefined()
+    expect(element.wow).toBe(false)
+
   it 'does not fire attributeChanged on config change', ->
     executed = false
     element = new (registerCustomElement(getCustomElement({
