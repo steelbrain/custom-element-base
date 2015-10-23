@@ -46,6 +46,16 @@ describe 'Custom Element Base', ->
     element.wow = true
     expect(element.getAttribute('wow')).toBe('true')
 
+  it 'automatically uses the existing html attributes in config', ->
+    name = 'x-spec-automatically-resume-config-attributes'
+    registerCustomElement(getCustomElement({
+      name,
+      config: {wow: {type: Boolean}}
+    }))
+    container = document.createElement('div')
+    container.innerHTML = "<#{name} wow='true'></#{name}>"
+    expect(container.childNodes[0].wow).toBe(true)
+
   it 'does not fire attributeChanged on config change', ->
     executed = false
     element = new (registerCustomElement(getCustomElement({
