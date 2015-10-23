@@ -12,6 +12,7 @@ function registerCustomElement({name, created, initialize, attached, detached, a
     for (let name in config) {
       if (config.hasOwnProperty(name)) {
         const current = config[name]
+        name = name.toLowerCase()
         if (typeof current.type === 'undefined') {
           current.type = String
         }
