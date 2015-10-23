@@ -4,7 +4,7 @@
 // @Compiler-Compress "true"
 // @Compiler-Output "base.min.js"
 
-function registerCustomElement({name, created, initialize, attached, detached, attributeChanged, config = {}}) {
+function registerCustomElement({name, created, initialize, attached, detached, attributeChanged, config = {}, proto = {}}) {
   const element = Object.create(HTMLElement.prototype)
   element.createdCallback = function() {
     const elementConfig = this.__config = {__init: false}
@@ -71,6 +71,11 @@ function registerCustomElement({name, created, initialize, attached, detached, a
       if (typeof attributeChanged !== 'undefined') {
         attributeChanged.call(this, {attrName, new: newVal, old: oldVal})
       }
+    }
+  }
+  for (let protoName in proto) {
+    if (proto.hasOwnProperty(protoName)) {
+      element[name] = proto[protoName]
     }
   }
   return document.registerElement(name, {prototype: element});
