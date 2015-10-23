@@ -71,7 +71,9 @@ function registerCustomElement({name, created, initialize, attached, detached, a
   return document.registerElement(name, {prototype: element});
 }
 registerCustomElement.normalizeType = function(type, value) {
-  if (value instanceof type) {
+  if (type === 'JSON') {
+    return typeof value === 'object' ? value : JSON.parse(value)
+  } else if (value instanceof type) {
     return value
   } else return type(value)
 }
