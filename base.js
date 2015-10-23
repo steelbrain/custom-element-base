@@ -75,7 +75,7 @@ function registerCustomElement({name, created, initialize, attached, detached, a
   }
   for (let protoName in proto) {
     if (proto.hasOwnProperty(protoName)) {
-      element[name] = proto[protoName]
+      element[protoName] = proto[protoName]
     }
   }
   return document.registerElement(name, {prototype: element});
