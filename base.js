@@ -4,7 +4,7 @@
 // @Compiler-Compress "true"
 // @Compiler-Output "base.min.js"
 
-function registerCustomElement({name, created, attached, detached, attributeChanged, config = {}}) {
+function registerCustomElement({name, created, initialize, attached, detached, attributeChanged, config = {}}) {
   const element = Object.create(HTMLElement.prototype)
   element.createdCallback = function() {
     const elementConfig = this.__config = {__init: false}
@@ -31,11 +31,16 @@ function registerCustomElement({name, created, attached, detached, attributeChan
         })
       }
     }
+    if (typeof created !== 'undefined') {
+      created.call(this)
+    }
   }
   element.attachedCallback = function() {
     if (!this.__config.__init) {
       this.__config.__init = true
-      created.call(this)
+      if (typeof initialize !== 'undefined') {
+        initialize.call(this)
+      }
     }
     if (typeof attached !== 'undefined') {
       attached.call(this)
