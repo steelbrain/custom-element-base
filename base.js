@@ -19,7 +19,7 @@ function registerCustomElement({name, created, initialize, attached, detached, a
         if (current.default) {
           elementConfig[name] = registerCustomElement.normalizeType(current.type, current.type === Object ? Object.create(current.default) : current.default)
         }
-        Object.defineProperty(this, name, {
+        Object.defineProperty(element, name, {
           set: function(value) {
             if (current.type !== Object) {
               element.setAttribute(name, value)
@@ -54,7 +54,7 @@ function registerCustomElement({name, created, initialize, attached, detached, a
   }
   element.attributeChangedCallback = function(attrName, oldVal, newVal) {
     if (attrName in config) {
-      this[attrName] = newVal
+      this[attrName] = newVal === null ? true : newVal
     } else {
       if (typeof attributeChanged !== 'undefined') {
         attributeChanged.call(this, {attrName, new: newVal, old: oldVal})
