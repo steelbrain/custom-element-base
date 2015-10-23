@@ -30,6 +30,13 @@ describe 'Custom Element Base', ->
     expect(element.Wow).toBeUndefined()
     expect(element.wow).toBe(false)
 
+  it 'returns null for non-specified config keys', ->
+    element = new (registerCustomElement(getCustomElement({
+      name: 'x-spec-return-null-nonspecified-keys'
+      config: {wow: {type: Boolean}}
+    })))
+    expect(element.wow).toBe(null)
+
   it 'does not fire attributeChanged on config change', ->
     executed = false
     element = new (registerCustomElement(getCustomElement({
