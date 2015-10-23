@@ -24,6 +24,8 @@ function registerCustomElement({name, created, initialize, attached, detached, a
             value = registerCustomElement.normalizeType(current.type, value)
             if (current.type !== Object) {
               element.setAttribute(name, value)
+            } else if (current.type === 'JSON') {
+              element.removeAttribute(name)
             }
             elementConfig[name] = value
           },
