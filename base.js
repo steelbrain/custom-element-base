@@ -27,7 +27,13 @@ function registerCustomElement({name, created, initialize, attached, detached, a
             elementConfig[name] = registerCustomElement.normalizeType(current.type, value)
           },
           get: function() {
-            return elementConfig[name] || registerCustomElement.normalizeType(current.type, element.getAttribute(name))
+            if (typeof elementConfig[name] !== 'undefined') {
+              return elementConfig[name]
+            }
+            if (element.hasAttribute(name)) {
+              const value = element.getAttribute(name)
+              return registerCustomElement.normalizeType(current.type, value === null ? true : value)
+            } else return null
           }
         })
       }
