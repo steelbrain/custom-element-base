@@ -16,7 +16,7 @@ function registerCustomElement({name, created, initialize, attached, detached, a
         if (typeof current.type === 'undefined') {
           current.type = String
         }
-        if (current.default) {
+        if (typeof current.default !== 'undefined') {
           elementConfig[name] = registerCustomElement.normalizeType(current.type, current.type === Object ? Object.create(current.default) : current.default)
         }
         Object.defineProperty(element, name, {
@@ -30,13 +30,14 @@ function registerCustomElement({name, created, initialize, attached, detached, a
             if (typeof elementConfig[name] !== 'undefined') {
               return elementConfig[name]
             }
-            if (element.hasAttribute(name)) {
-              const value = element.getAttribute(name)
-              return registerCustomElement.normalizeType(current.type, value === null ? true : value)
-            } else return null
+            return null
           }
         })
       }
+    }
+    for (let i = 0 ; i < element.attributes.length; ++ i) {
+      const current = element.attributes[i]
+      this[current.name] = current.value
     }
     if (typeof created !== 'undefined') {
       created.call(this)
