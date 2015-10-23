@@ -37,6 +37,15 @@ describe 'Custom Element Base', ->
     })))
     expect(element.wow).toBe(null)
 
+  it 'updates the attribute on html struct itself', ->
+    element = new (registerCustomElement(getCustomElement({
+      name: 'x-spec-updates-attribute-html-struct'
+      config: {wow: {type: Boolean}}
+    })))
+    expect(element.hasAttribute('wow')).toBe(false)
+    element.wow = true
+    expect(element.getAttribute('wow')).toBe('true')
+
   it 'does not fire attributeChanged on config change', ->
     executed = false
     element = new (registerCustomElement(getCustomElement({
