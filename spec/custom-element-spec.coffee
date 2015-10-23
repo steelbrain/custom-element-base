@@ -95,3 +95,24 @@ describe 'Custom Element Base', ->
     expect(executed).toBe(false)
     element.setAttribute('asd-a', false)
     expect(executed).toBe(true)
+
+  it 'automatically converts value to required type', ->
+    element = new (registerCustomElement(getCustomElement({
+      name: 'x-convert-value-to-required-type'
+      config: {
+        number: {type: Number}
+        object: {type: Object}
+        string: {type: String}
+        boolean: {type: Boolean}
+      }
+    })))
+
+    element.number = '2'
+    element.object = {}
+    element.string = 2
+    element.boolean = ''
+
+    expect(typeof element.number).toBe('number')
+    expect(typeof element.object).toBe('object')
+    expect(typeof element.string).toBe('string')
+    expect(typeof element.boolean).toBe('boolean')
