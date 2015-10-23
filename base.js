@@ -17,7 +17,7 @@ function registerCustomElement({name, created, initialize, attached, detached, a
           current.type = String
         }
         if (current.default) {
-          elementConfig[name] = registerCustomElement.normalizeType(current.type, current.default)
+          elementConfig[name] = registerCustomElement.normalizeType(current.type, current.type === Object ? Object.create(current.default) : current.default)
         }
         Object.defineProperty(this, name, {
           set: function(value) {
