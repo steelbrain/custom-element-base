@@ -46,6 +46,15 @@ describe 'Custom Element Base', ->
     element.wow = true
     expect(element.getAttribute('wow')).toBe('true')
 
+  it 'duplicates the default if its an object', ->
+    defaultProp = {a: 'b'}
+    element = new (registerCustomElement(getCustomElement({
+      name: 'x-spec-duplicate-default-if-object'
+      config: {wow: {type: Object, default: defaultProp}}
+    })))
+    expect(element.wow).not.toBe(defaultProp)
+    expect(element.wow.__proto__).toBe(defaultProp)
+
   it 'automatically uses the existing html attributes in config', ->
     name = 'x-spec-automatically-resume-config-attributes'
     registerCustomElement(getCustomElement({
