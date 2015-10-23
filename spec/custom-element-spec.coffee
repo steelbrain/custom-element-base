@@ -55,6 +55,15 @@ describe 'Custom Element Base', ->
     expect(element.wow).not.toBe(defaultProp)
     expect(element.wow.__proto__).toBe(defaultProp)
 
+  it 'does not show object configs in html attributes', ->
+    element = new (registerCustomElement(getCustomElement({
+      name: 'x-spec-doesnt-show-object-config-html-attributes'
+      config: {wow: {type: Object}}
+    })))
+    expect(element.hasAttribute('wow')).toBe(false)
+    element.wow = {}
+    expect(element.hasAttribute('wow')).toBe(false)
+
   it 'automatically uses the existing html attributes in config', ->
     name = 'x-spec-automatically-resume-config-attributes'
     registerCustomElement(getCustomElement({
