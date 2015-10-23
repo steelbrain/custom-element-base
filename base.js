@@ -22,10 +22,10 @@ function registerCustomElement({name, created, initialize, attached, detached, a
         Object.defineProperty(element, name, {
           set: function(value) {
             value = registerCustomElement.normalizeType(current.type, value)
-            if (current.type !== Object) {
+            if (current.type === 'JSON') {
+               element.removeAttribute(name)
+            } else if (current.type !== Object) {
               element.setAttribute(name, value)
-            } else if (current.type === 'JSON') {
-              element.removeAttribute(name)
             }
             elementConfig[name] = value
           },
