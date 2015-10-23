@@ -5,7 +5,7 @@ describe 'Custom Element Base', ->
   it 'fires the events in order', ->
     lastRan = null
     element = new (registerCustomElement(getCustomElement({
-      name: 'x-custom-element'
+      name: 'x-spec-event-order'
       created: -> lastRan = 'created'
       initialize: -> lastRan = 'initialize'
       attached: ->
@@ -22,3 +22,14 @@ describe 'Custom Element Base', ->
     element.remove()
     expect(lastRan).toBe('detached')
 
+  it 'does not fire attributeChanged on config change', ->
+    executed = false
+    element = new (registerCustomElement(getCustomElement({
+      name: 'x-spec-attributechanged-fired'
+      attributeChanged: -> executed = true
+      config: {asd: {type: Boolean, default: false}}
+    })))
+    element.setAttribute('asd', false)
+    expect(executed).toBe(false)
+    element.setAttribute('asd-a', false)
+    expect(executed).toBe(true)
