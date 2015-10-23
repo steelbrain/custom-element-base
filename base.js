@@ -21,10 +21,11 @@ function registerCustomElement({name, created, initialize, attached, detached, a
         }
         Object.defineProperty(element, name, {
           set: function(value) {
+            value = registerCustomElement.normalizeType(current.type, value)
             if (current.type !== Object) {
               element.setAttribute(name, value)
             }
-            elementConfig[name] = registerCustomElement.normalizeType(current.type, value)
+            elementConfig[name] = value
           },
           get: function() {
             if (typeof elementConfig[name] !== 'undefined') {
