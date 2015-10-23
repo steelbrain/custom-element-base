@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Custom Element Base Demo</title>
+</head>
+<body>
+  <script src="base.min.js"></script>
+  <script>
+    var foo = new (registerCustomElement({
+      name: 'x-foo',
+      created: function() {
+        console.log('created')
+      },
+      initialize: function() {
+        console.log('initialize', this.autosave, this.somewow.a == 'b')
+      },
+      attached: function() {
+        console.log('attached')
+      },
+      detached: function() {
+        console.log('detached')
+      },
+      attributeChanged: function(info) {
+        console.log('attributeChanged', info)
+      },
+      config: {
+        autosave: {
+          type: String,
+          default: "Wow"
+        },
+        someWow: {
+          type: Object,
+          default: {a: 'b'}
+        }
+      }
+    }))()
+    foo.setAttribute('beep', 'boop')
+    foo.setAttribute('beep', 'beep')
+    document.body.appendChild(foo)
+
+  </script>
+</body>
+</html>
