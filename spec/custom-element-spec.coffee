@@ -117,12 +117,10 @@ describe 'Custom Element Base', ->
     expect(typeof element.string).toBe('string')
     expect(typeof element.boolean).toBe('boolean')
 
-  it 'accepts a proto', ->
+  it 'sets unknown properties right on the element', ->
     new (registerCustomElement({
       name: 'x-spec-accepts-a-proto'
       created: ->
         expect(typeof this.a).toBe('function')
-      proto: {
-        a: ->
-      }
+      a: ->
     }))

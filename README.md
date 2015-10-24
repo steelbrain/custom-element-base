@@ -27,6 +27,7 @@ function registerCustomElement({
   ?detached: Function,
   ?attributeChanged: Function,
   ?config: Array<string, Config>
+  .... // <-- any other properties will be copied directly to that element's prototype
 })
 ```
 

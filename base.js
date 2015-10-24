@@ -4,8 +4,10 @@
 // @Compiler-Compress "true"
 // @Compiler-Output "base.min.js"
 
-function registerCustomElement({name, created, initialize, attached, detached, attributeChanged, config = {}, proto = {}}) {
+function registerCustomElement(params) {
   const element = Object.create(HTMLElement.prototype)
+  const config = params.config || {}
+
   element.createdCallback = function() {
     const elementConfig = this.__config = {__init: false}
     const element = this
@@ -44,42 +46,48 @@ function registerCustomElement({name, created, initialize, attached, detached, a
         this[current.name] = current.value
       }
     }
-    if (typeof created !== 'undefined') {
-      created.call(this)
+    if (typeof params.created !== 'undefined') {
+      params.created.call(this)
     }
   }
+
   element.attachedCallback = function() {
     if (!this.__config.__init) {
       this.__config.__init = true
-      if (typeof initialize !== 'undefined') {
-        initialize.call(this)
+      if (typeof params.initialize !== 'undefined') {
+        params.initialize.call(this)
       }
     }
-    if (typeof attached !== 'undefined') {
-      attached.call(this)
+    if (typeof params.attached !== 'undefined') {
+      params.attached.call(this)
     }
   }
+
   element.detachedCallback = function() {
-    if (typeof detached !== 'undefined') {
-      detached.call(this)
+    if (typeof params.detached !== 'undefined') {
+      params.detached.call(this)
     }
   }
+
   element.attributeChangedCallback = function(attrName, oldVal, newVal) {
     if (attrName in config) {
       this[attrName] = newVal === null ? true : newVal
     } else {
-      if (typeof attributeChanged !== 'undefined') {
-        attributeChanged.call(this, {attrName, new: newVal, old: oldVal})
+      if (typeof params.attributeChanged !== 'undefined') {
+        params.attributeChanged.call(this, {attrName, new: newVal, old: oldVal})
       }
     }
   }
-  for (let protoName in proto) {
-    if (proto.hasOwnProperty(protoName)) {
-      element[protoName] = proto[protoName]
+
+  for (let protoName in params) {
+    if (params.hasOwnProperty(protoName) && registerCustomElement.knownParameters.indexOf(name) === -1) {
+      element[protoName] = params[protoName]
     }
   }
-  return document.registerElement(name, {prototype: element});
+
+  return document.registerElement(params.name, {prototype: element});
 }
+registerCustomElement.knownParameters = ['name', 'created', 'initialize', 'attached', 'detached', 'attributeChanged', 'config']
 registerCustomElement.normalizeType = function(type, value) {
   if (type === 'JSON') {
     return typeof value === 'object' ? value : JSON.parse(value)
