@@ -1,6 +1,8 @@
 Custom-Element-Base
 ==================
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/steelbrain/custom-element-base.svg)](https://greenkeeper.io/)
+
 Custom-Element-Base is a base module that allows its consumers to painlessly define custom elements. It automatically manages the config attributes and their type-conversion. You can focus on doing your part and leave the rest to it.
 
 #### Features
